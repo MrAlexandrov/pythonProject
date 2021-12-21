@@ -208,3 +208,6 @@ plt.show()
 # plt.xlabel("Fruit")
 # plt.ylabel("Count")
 # plt.show()
+
+# plot - график
+# bar - столбчатая диаграмма
