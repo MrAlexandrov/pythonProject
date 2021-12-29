@@ -14,6 +14,8 @@ RED = R[2]
 ALL = RGB[2]
 NERED = ALL - RED
 EXP = G[2] + B[2]
+p = RED / ALL
+q = NERED / ALL
 
 
 def fi(t):
@@ -35,39 +37,22 @@ def C(n, k):
 
 
 def Bernulli(n, k):
-    p = RED / ALL
-    q = NERED / ALL
+    print(k)
     return C(n, k) * (p ** k) * (q ** (n - k))
 
 
+def X(n, k):
+    return (k - n * p) / sqrt(n * p * q)
+
+
 def P(k1, k2, n):
-    p = RED / ALL
-    q = NERED / ALL
-    x1 = (k1 - n * p) / sqrt(n * p * q)
-    x2 = (k2 - n * p) / sqrt(n * p * q)
+    x1 = X(n, k1)
+    x2 = X(n, k2)
     return FI(x2) - FI(x1)
 
 
-x = [i for i in range(RED + 1)]             # Для каждого k
-y = []                                      # P(k) - вероятность достать столько красных шаров
-
-
-for i in range(len(x)):
-    red = RED
-    nered = NERED
-    all = ALL
-    exp = EXP
-    p = C(exp, i)
-    for j in range(x[i]):                   # Набираем красные шары
-        p *= red / all
-        red -= 1
-        all -= 1
-        exp -= 1
-    for j in range(exp):                    # Набираем не красные шары
-        p *= nered / all
-        nered -= 1
-        all -= 1
-    y.append(p)
+x = [i for i in range(RED + 1)]                                                     # Для каждого количества экспериментов
+y = [C(RED, i) * C(ALL - RED, EXP - i) / C(ALL, EXP) for i in range(RED + 1)]       # P(k) - вероятность достать столько красных шаров
 
 
 print(f"\n{sum(y)}")
@@ -76,7 +61,7 @@ plt.title("P(k)")                         # заголовок
 plt.xlabel("k")                             # ось абсцисс
 plt.ylabel("P(k)")                          # ось ординат
 plt.grid()                                  # включение отображение сетки
-plt.plot(x, y)                            # построение графика
+plt.bar(x, y)                            # построение графика
 plt.show()
 
 y1 = [y[0]]
@@ -87,18 +72,18 @@ plt.title("F(k)")                         # заголовок
 plt.xlabel("k")                             # ось абсцисс
 plt.ylabel("F(k)")                          # ось ординат
 plt.grid()                                  # включение отображение сетки
-plt.plot(x, y1)                            # построение графика
+plt.step(x, y1)                            # построение графика
 plt.show()
 
 
-def MathWaight(P):
+def MathWait(P):
     res = 0
     for i in range(len(P)):
         res += i * P[i]
     return res
 
 
-M = MathWaight(y)
+M = MathWait(y)
 
 
 print(f"M(k) = {M}")
@@ -106,17 +91,18 @@ print(f"M(k) = {M}")
 
 def Disp1(x, P):
     res = 0
-    M = MathWaight(P)
+    M = MathWait(P)
     for i in range(len(P)):
         res += P[i] * ((x[i] - M) ** 2)
     return res
+
 
 # x^2 * f(x) - M^2(x)
 def Disp2(x, P):
     res = 0
     for i in range(len(P)):
         res += (x[i] ** 2) * P[i]
-    res -= MathWaight(P) ** 2
+    res -= MathWait(P) ** 2
     return res
 
 

@@ -14,6 +14,9 @@ ALL = RGB[1] + RGB[2] + RGB[3] + 1
 GOOD = 1
 BAD = ALL - GOOD
 EXP = [100, 1000, 10000]                # Число экспериментов
+p = GOOD / ALL
+q = BAD / ALL
+
 
 def fi(t):
     return 1.0 / sqrt(2 * pi) * exp((-t ** 2) / 2)
@@ -29,32 +32,33 @@ def FI(t):
     return otr * res[0]
 
 
+def Stir(n):
+    return sqrt(2 * pi) * (n / exp(1)) ** n * exp(1 / (12 * n + 0.7509))
+
+
 def C(n, k):
     return factorial(n) / (factorial(n - k) * factorial(k))
 
 
 def Bernulli(n, k):
-    p = GOOD / ALL
-    q = BAD / ALL
     return C(n, k) * (p ** k) * (q ** (n - k))
 
 
-def local(n, k):
-    p = GOOD / ALL
-    q = BAD / ALL
-    x = (k - n * p) / sqrt(n * p * q)
-    return (1 / sqrt(n * p * q)) * fi(x)
+def X(n, k):
+    return (k - n * p) / sqrt(n * p * q)
+
+
+def MuLa(n, k):
+    return fi(X(n, k))
 
 
 def P(k1, k2, n):
-    p = GOOD / ALL
-    q = BAD / ALL
-    x1 = (k1 - n * p) / sqrt(n * p * q)
-    x2 = (k2 - n * p) / sqrt(n * p * q)
+    x1 = X(n, k1)
+    x2 = X(n, k2)
     return FI(x2) - FI(x1)
 
 
-def MathWaight(P):
+def MathWait(P):
     res = 0
     for i in range(len(P)):
         res += i * P[i]
@@ -64,7 +68,7 @@ def MathWaight(P):
 # D(x) = f(x) * (x - M) ^ 2
 def Disp1(x, P):
     res = 0
-    M = MathWaight(P)
+    M = MathWait(P)
     for i in range(len(P)):
         res += P[i] * ((x[i] - M) ** 2)
     return res
@@ -75,67 +79,68 @@ def Disp2(x, P):
     res = 0
     for i in range(len(P)):
         res += (x[i] ** 2) * P[i]
-    res -= MathWaight(P) ** 2
+    res -= MathWait(P) ** 2
     return res
 
 
-for i in EXP:
-    x = [j for j in range((i + 1))]  # Мы достанем чёрный шар k раз
-    y = []  # Вероятность, что мы достанем чёрный шар i раз
+x = [[], [], []]
+y = [[], [], []]
+y1 = [[], [], []]
 
-    for j in x:
-        good = GOOD
-        bad = BAD
-        all = ALL
-        if i <= 1000:
-            p = Bernulli(i, j)
+
+for i in range(len(EXP)):
+    l = EXP[i] * p
+    # x[i] = [j for j in range((EXP[i] + 1))]     # Мы достанем чёрный шар k раз
+    x[i] = [j for j in range(min(EXP[i] + 1, 200))]     # Мы достанем чёрный шар k раз
+    # y[i] = []                                   # Вероятность, что мы достанем чёрный шар i раз
+
+
+    last = 0
+    for j in x[i]:
+        if j == 0:
+            t = exp(-l)
+            y[i].append(t)
+            last = t
         else:
-            p = local(i, j)
-        y.append(p)
+            t = last * l / j
+            y[i].append(t)
+            last = t
 
-    print(f"Sum(P) = {sum(y)}")
+    print(f"Sum(P[{i}]) = {sum(y[i])}")
 
-    y1 = [y[0]]
-    for i in range(1, len(y)):
-        y1.append(y1[i - 1] + y[i])
+    y1[i].append(y[i][0])
+    for j in range(1, len(y[i])):
+        y1[i].append(y1[i][j - 1] + y[i][j])
 
-    M = MathWaight(y)
+    M = MathWait(y[i])
 
     print(f"M(k) = {M}")
 
-    D1 = Disp1(x, y)
-    D2 = Disp2(x, y)
+    D1 = Disp1(x[i], y[i])
+    D2 = Disp2(x[i], y[i])
 
-    if abs(D1 - D2) > 1e-7:
+    if abs(D1 - D2) > 1e-4:
         print("Bad")
         print(f"D1(k) = {D1}, D2(k) = {D2}")
     else:
         print(f"D(k) = {D1}")
 
 
-    if i == 100:
-        l, r = 0, 10
-    elif i == 1000:
-        l, r = 0, 30
-    else:
-        l, r = 80, 175
-    xx = x[l:r]
-    yy = y[l:r]
-    yy1 = y1[l:r]
+# color = ["r", "g", "b"]
 
-
+for i in range(len(EXP)):
     plt.title("P(k)")  # заголовок
     plt.xlabel("k")  # ось абсцисс
     plt.ylabel("P(k)")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(xx, yy)  # построение графика
+    plt.bar(x[i], y[i])  # построение графика
     plt.show()
 
     plt.title("F(k)")  # заголовок
     plt.xlabel("k")  # ось абсцисс
     plt.ylabel("F(k)")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(xx, yy1)  # построение графика
+    plt.step(x[i], y1[i])  # построение графика
     plt.show()
 
 
@@ -158,7 +163,7 @@ plt.title("P(3 <= k)")  # заголовок
 plt.xlabel("n")  # ось абсцисс
 plt.ylabel("P(k)")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(qq, ww)
+plt.step(qq, ww)
 plt.show()
 
 plt.title("n(P)")  # заголовок
