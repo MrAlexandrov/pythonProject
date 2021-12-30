@@ -38,6 +38,7 @@ def sumAn(n):
 
 
 n = 12
+k = 12
 
 # Q[n][i] = A[n] * (p / n) ^ k
 Q = [[0] * (n + 7) for i in range(n + 7)]
@@ -87,17 +88,6 @@ check *= P0Q[5][3]
 print(f"check with queue: {check}")
 
 
-def que(n):
-    x = [i for i in range(1, n + 1)]
-    y = [Q[n][i] for i in x]
-    plt.title(f"Lоч, n = {n}")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
-    plt.ylabel("L")  # ось ординат
-    plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
-    plt.show()
-
-
 def check(n, k):
     res = P0Q[n][k] * (sumAn(n) + sumQk(n, k))
     return res
@@ -106,91 +96,134 @@ def check(n, k):
 print(f"check(n, k) = {check(5, 3)}")
 
 
-def otk(n):
-    x = [i for i in range(n + 1)]
-    y = [P0Q[n][i] * Q[n][i] for i in x]
-    # y[0] = 1
-    plt.title(f"Pотк, n = {n}")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
+# def que(n):
+#     x = [i for i in range(1, n + 1)]
+#     y = [Q[n][i] for i in x]
+#     plt.title(f"L оч, n = {n}")  # заголовок
+#     plt.xlabel("k")  # ось абсцисс
+#     plt.ylabel("L")  # ось ординат
+#     plt.grid()  # включение отображение сетки
+#     plt.plot(x, y)
+#     plt.show()
+#     plt.legend()
+
+
+def Potk(n):
+    x = [i for i in range(k + 1)]
+    y = [P0Q[i][n] * Q[i][n] for i in x]
+    y[0] = 1
+    plt.title(f"P отк")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
     plt.ylabel("P")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
-    plt.show()
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
-def busy(n):
-    x = [i for i in range(n + 1)]
-    y = [A[i] * P0Q[n][i] * i for i in x]
-    for i in range(1, n + 1):
+def Mzan(n):
+    x = [i for i in range(k + 1)]
+    # y = [A[i] * P0Q[n][i] * i for i in x]
+    add = 0
+    for i in range(n):
+        add += i * P0Q[i][n]
+    y = [add + Q[i][n] * P0Q[i][n] for i in x]
+    for i in range(1, k + 1):
         y[i] += y[i - 1]
-    plt.title(f"Mзан, n = {n}")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
+    plt.title(f"M зан")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
-    plt.show()
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
-def zagr(n):
-    x = [i for i in range(n + 1)]
-    y = [A[i] * P0Q[n][i] * i for i in x]
-    for i in range(1, n + 1):
+def Kzagr(n):
+    x = [i for i in range(k + 1)]
+    # y = [A[i] * P0Q[n][i] * i for i in x]
+    add = 0
+    for i in range(n):
+        add += i * P0Q[i][n]
+    y = [add + Q[i][n] * P0Q[i][n] for i in x]
+    for i in range(1, k + 1):
         y[i] += y[i - 1]
-    for i in range(1, n + 1):
+    for i in range(1, k + 1):
         y[i] /= i
-    plt.title(f"Kзагр, n = {n}")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
+    plt.title(f"K загр")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
     plt.ylabel("K")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
-    plt.show()
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
-def Pqueue(n):
-    x = [i for i in range(n + 1)]
-    y = [Q[n][i] for i in x]
-    for i in range(1, n + 1):
-        y[i] += y[i - 1]
-    for i in range(1, n + 1):
-        y[i] *= P0Q[n][i]
-    y[0] = 0
-    plt.title(f"Pоч, n = {n}")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
+def Pque(n):
+    x = [i for i in range(k + 1)]
+    y = [sumQk(i, n) for i in x]
+    y[0] = 1
+    # for i in range(1, k + 1):
+    #     y[i] += y[i - 1]
+    for i in range(1, k + 1):
+        y[i] *= P0Q[i][n]
+    plt.title(f"P оч")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
     plt.ylabel("P")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
-    plt.show()
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
 
-def Qlen(n):
-    x = [i for i in range(n + 1)]
-    y = [Q[n][i] for i in x]
+def MlenQ(n):
+    x = [i for i in range(k + 1)]
+    y = [Q[i][n] * P0Q[i][n] for i in x]
     y[0] = 0
-    for i in range(1, n + 1):
-        y[i] *= i * P0Q[n][i] * A[n]
+    for i in range(1, k + 1):
+        y[i] *= i
         y[i] += y[i - 1]
-    plt.title(f"M длины очереди, n = {n}")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
+    plt.title(f"M длины очереди")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
-    plt.show()
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
 
-# for i in range(2, 15, 2):
-# n = 3
-que(n)
-otk(n)
-busy(n)
-zagr(n)
-Pqueue(n)
-Qlen(n)
 
-# x = []
-# y = []
-#
-# plt.title("P(3 <= k)")  # заголовок
-# plt.xlabel("n")  # ось абсцисс
-# plt.ylabel("P(k)")  # ось ординат
-# plt.grid()  # включение отображение сетки
-# plt.plot(x, y)
-# plt.show()
+def KzanQ(n):
+    x = [i for i in range(k + 1)]
+    y = [Q[i][n] * P0Q[i][n] for i in x]
+    y[0] = 0
+    for i in range(1, k + 1):
+        y[i] *= i
+        y[i] += y[i - 1]
+    for i in range(1, k + 1):
+        y[i] /= i
+    plt.title(f"K занятости очереди")  # заголовок
+    plt.xlabel("n")  # ось абсцисс
+    plt.ylabel("M")  # ось ординат
+    plt.grid()  # включение отображение сетки
+    plt.plot(x, y, label=f"k={n}")
+    plt.legend()
+
+
+for i in range(1, n + 1):
+    Potk(i)
+plt.show()
+
+for i in range(1, n + 1):
+    Mzan(i)
+plt.show()
+
+for i in range(1, n + 1):
+    Kzagr(i)
+plt.show()
+
+for i in range(1, n + 1):
+    Pque(i)
+plt.show()
+
+for i in range(1, n + 1):
+    MlenQ(i)
+plt.show()
+
+for i in range(1, n + 1):
+    KzanQ(i)
+plt.show()
