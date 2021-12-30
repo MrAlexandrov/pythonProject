@@ -45,7 +45,9 @@ def otk(n):
     plt.bar(x, y)
     plt.show()
 
+
 B = []
+
 
 def busy(n):
     x = [i for i in range(n + 1)]
