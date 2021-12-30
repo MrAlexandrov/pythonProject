@@ -53,7 +53,7 @@ def busy(n):
     for i in x:
         sm = 0
         for j in range(i + 1):
-            sm = A[j] * P0[i] * j + sm
+            sm += A[j] * P0[i] * j
         B.append(sm)
     plt.title("M зан")  # заголовок
     plt.xlabel("n")  # ось абсцисс
