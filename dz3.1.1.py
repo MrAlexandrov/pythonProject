@@ -23,7 +23,7 @@ P0 = [1] #      1 / 1,  1 / (1 + p),    1 / (1 + p + p^2), ...
 
 sum = A[0]
 
-for i in range(1, 100):
+for i in range(1, 20):
     A.append(A[-1] * p / i)
     sum += A[-1]
     P0.append(1 / sum)
@@ -45,43 +45,44 @@ def otk(n):
     plt.bar(x, y)
     plt.show()
 
+B = []
 
 def busy(n):
     x = [i for i in range(n + 1)]
-    y = [A[i] * P0[i] * i for i in x]
-    for i in range(1, n + 1):
-        y[i] += y[i - 1]
+    y = []
+    for i in x:
+        sm = 0
+        for j in range(i + 1):
+            sm = A[j] * P0[i] * j + sm
+        B.append(sm)
     plt.title("M зан")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.bar(x, y)
+    plt.bar(x, B)
     plt.show()
 
 
 def zagr(n):
     x = [i for i in range(n + 1)]
-    M = [A[i] * P0[i] * i for i in x]
-    K = M
     for i in range(1, n + 1):
-        K[i] += K[i - 1]
-    for i in range(1, n + 1):
-        K[i] /= i
+        B[i] /= i
     plt.title("K загр")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("K")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.bar(x, K)
+    plt.bar(x, B)
     plt.show()
+
 
 otk(n)
 busy(n)
 zagr(n)
 
-# x = []
-# y = []
-#
-# plt.title("P(3 <= k)")  # заголовок
+    # x = []
+    # y = []
+    #
+    # plt.title("P(3 <= k)")  # заголовок
 # plt.xlabel("n")  # ось абсцисс
 # plt.ylabel("P(k)")  # ось ординат
 # plt.grid()  # включение отображение сетки

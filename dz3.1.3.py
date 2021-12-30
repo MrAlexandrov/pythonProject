@@ -59,6 +59,14 @@ for i in range(1, n + 5):
         P0Q[i][j] = 1 / sm
 
 
+P0INF = [1]
+for i in range(1, n + 7):
+    sm = sumAn(i)
+    a = p / i
+    sm += A[i] * a / (1 - a)
+    P0INF.append(1 / sm)
+
+
 def sumQk(n, k):
     res = 0
     for i in range(1, k + 1):
@@ -96,80 +104,69 @@ def check(n, k):
 print(f"check(n, k) = {check(5, 3)}")
 
 
-# def que(n):
-#     x = [i for i in range(1, n + 1)]
-#     y = [Q[n][i] for i in x]
-#     plt.title(f"L оч, n = {n}")  # заголовок
-#     plt.xlabel("k")  # ось абсцисс
-#     plt.ylabel("L")  # ось ординат
-#     plt.grid()  # включение отображение сетки
-#     plt.plot(x, y)
-#     plt.show()
-#     plt.legend()
-
-
-def Potk(n):
-    x = [i for i in range(k + 1)]
-    y = [P0Q[i][n] * Q[i][n] for i in x]
-    y[0] = 1
-    plt.title(f"P отк")  # заголовок
-    plt.xlabel("n")  # ось абсцисс
-    plt.ylabel("P")  # ось ординат
-    plt.grid()  # включение отображение сетки
-    plt.plot(x, y, label=f"k={n}")
-    plt.legend()
-
-
 def Mzan(n):
-    x = [i for i in range(k + 1)]
-    # y = [A[i] * P0Q[n][i] * i for i in x]
-    add = 0
-    for i in range(n):
-        add += i * P0Q[i][n]
-    y = [add + Q[i][n] * P0Q[i][n] for i in x]
-    for i in range(1, k + 1):
-        y[i] += y[i - 1]
+    x = [i for i in range(6, n + 1)]
+    y = []
+    for k in x:
+        res = 0
+        for i in range(k + 1):
+            res += P0INF[k] * i * (p ** i) / factorial(i)
+        a = p / k
+        res += P0INF[k] * (k * (p ** k) / factorial(k)) * (a / (1 - a))
+        y.append(res)
     plt.title(f"M зан")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y, label=f"k={n}")
-    plt.legend()
+    plt.plot(x, y)
+    plt.show()
 
 
 def Kzagr(n):
-    x = [i for i in range(k + 1)]
-    # y = [A[i] * P0Q[n][i] * i for i in x]
-    add = 0
-    for i in range(n):
-        add += i * P0Q[i][n]
-    y = [add + Q[i][n] * P0Q[i][n] for i in x]
-    for i in range(1, k + 1):
-        y[i] += y[i - 1]
-    for i in range(1, k + 1):
+    x = [i for i in range(6, n + 1)]
+    y = []
+    for k in x:
+        res = 0
+        for i in range(k + 1):
+            res += P0INF[k] * i * (p ** i) / factorial(i)
+        a = p / k
+        res += P0INF[k] * (k * (p ** k) / factorial(k)) * (a / (1 - a))
+        y.append(res)
+    for i in range(1, len(y)):
         y[i] /= i
     plt.title(f"K загр")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("K")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x[1:], y[1:], label=f"k={n}")
+    plt.plot(x, y, label=f"k={n}")
     plt.legend()
+    plt.show()
+
+
+def sumPINF(n):
+    res = P0INF[n]
+    for i in range(1, n):
+        res += A[i] * P0INF[n]
+    return 1 - res
 
 
 def Pque(n):
-    x = [i for i in range(k + 1)]
-    y = [sumQk(i, n) for i in x]
-    y[0] = 1
+    # x = [i for i in range(k + 1)]
+    # y = [sumQk(i, n) for i in x]
+    # y[0] = 1
+    # # for i in range(1, k + 1):
+    # #     y[i] += y[i - 1]
     # for i in range(1, k + 1):
-    #     y[i] += y[i - 1]
-    for i in range(1, k + 1):
-        y[i] *= P0Q[i][n]
+    #     y[i] *= P0Q[i][n]
+    x = [i for i in range(1, n)]
+    y = [sumPINF(i) for i in x]
     plt.title(f"P оч")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("P")  # ось ординат
     plt.grid()  # включение отображение сетки
     plt.plot(x, y, label=f"k={n}")
     plt.legend()
+    plt.show()
 
 
 def MlenQ(n):
@@ -185,6 +182,7 @@ def MlenQ(n):
     plt.grid()  # включение отображение сетки
     plt.plot(x, y, label=f"k={n}")
     plt.legend()
+    plt.show()
 
 
 def KzanQ(n):
@@ -204,26 +202,7 @@ def KzanQ(n):
     plt.legend()
 
 
-for i in range(1, n + 1):
-    Potk(i)
-plt.show()
+Mzan(n)
+Kzagr(n)
 
-for i in range(1, n + 1):
-    Mzan(i)
-plt.show()
 
-for i in range(1, n + 1):
-    Kzagr(i)
-plt.show()
-
-for i in range(1, n + 1):
-    Pque(i)
-plt.show()
-
-for i in range(1, n + 1):
-    MlenQ(i)
-plt.show()
-
-for i in range(1, n + 1):
-    KzanQ(i)
-plt.show()

@@ -128,47 +128,83 @@ for i in range(len(EXP)):
 
 # color = ["r", "g", "b"]
 
-for i in range(len(EXP)):
-    plt.title("P(k)")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
-    plt.ylabel("P(k)")  # ось ординат
-    plt.grid()  # включение отображение сетки
-    plt.bar(x[i], y[i])  # построение графика
-    plt.show()
-
-    plt.title("F(k)")  # заголовок
-    plt.xlabel("k")  # ось абсцисс
-    plt.ylabel("F(k)")  # ось ординат
-    plt.grid()  # включение отображение сетки
-    plt.step(x[i], y1[i])  # построение графика
-    plt.show()
-
+# for i in range(len(EXP)):
+#     plt.title("P(k)")  # заголовок
+#     plt.xlabel("k")  # ось абсцисс
+#     plt.ylabel("P(k)")  # ось ординат
+#     plt.grid()  # включение отображение сетки
+#     plt.bar(x[i], y[i])  # построение графика
+#     plt.show()
+#
+#     plt.title("F(k)")  # заголовок
+#     plt.xlabel("k")  # ось абсцисс
+#     plt.ylabel("F(k)")  # ось ординат
+#     plt.grid()  # включение отображение сетки
+#     plt.step(x[i], y1[i])  # построение графика
+#     plt.show()
+#
+# exit(0)
 
 n = [0.7, 0.8, 0.9, 0.95, 0.99]
 f = []
 # P = 0.5 - FI(x1) => FI(x1) = 0.5 - P => FI(x1) = integrate(1.0 / sqrt(2 * pi) * exp((-x ** 2) / 2))
 
 # F(n) : P(k >= 3) = 0.7
-qq = [i for i in range(3, 1000)]
-ww = [P(3, i, i) for i in qq]
+# qq = [i for i in range(3, 1000)]
+# ww = [P(3, i, i) for i in qq]
+#
+# for i in n:
+#     for j in range(len(ww)):
+#         if ww[j] > i:
+#             f.append(j)
+#             print(f"P(3 <= k) >= {i}, n = {j}")
+#             break
 
-for i in n:
-    for j in range(len(ww)):
-        if ww[j] > i:
-            f.append(j)
-            print(f"P(3 <= k) >= {i}, n = {j}")
-            break
+# plt.title("P(3 <= k)")  # заголовок
+# plt.xlabel("n")  # ось абсцисс
+# plt.ylabel("P(k)")  # ось ординат
+# plt.grid()  # включение отображение сетки
+# plt.step(qq, ww)
+# plt.show()
+#
+# plt.title("n(P)")  # заголовок
+# plt.xlabel("P(3 <= k)")  # ось абсцисс
+# plt.ylabel("n")  # ось ординат
+# plt.grid()  # включение отображение сетки
+# plt.plot(n, f)
+# plt.show()
+
+x = []
+y = []
+was = [0, 0, 0, 0, 0]
+pr = [0, 0, 0, 0, 0]
+
+for i in range(1, 1000):
+    lam = i * p
+    t = exp(-lam)
+    res = 1 - t * (1 + lam + (lam ** 2) / 2)
+    x.append(i)
+    y.append(res)
+    for j in range(len(n)):
+        if res >= n[j] and was[j] == 0:
+            print(f"P(3 <= k) >= {n[j]}, n = {i}")
+            was[j] = n[j]
+            pr[j] = i
+    if abs(res - 1) < 1e-3:
+        break
+
 
 plt.title("P(3 <= k)")  # заголовок
 plt.xlabel("n")  # ось абсцисс
-plt.ylabel("P(k)")  # ось ординат
+plt.ylabel("P(3 <= k)")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.step(qq, ww)
+plt.plot(x, y)
 plt.show()
 
-plt.title("n(P)")  # заголовок
-plt.xlabel("P(3 <= k)")  # ось абсцисс
-plt.ylabel("n")  # ось ординат
+
+plt.title("")  # заголовок
+plt.xlabel("")  # ось абсцисс
+plt.ylabel("")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(n, f)
+plt.plot(was, pr)
 plt.show()
