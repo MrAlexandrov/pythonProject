@@ -37,26 +37,25 @@ print(n)
 
 def otk(n):
     x = [i for i in range(n + 1)]
-    D = [A[i] * P0[i] for i in x]
-    plt.title("Pотк")  # заголовок
+    y = [A[i] * P0[i] for i in x]
+    plt.title("P отк")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("P")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, D)
+    plt.bar(x, y)
     plt.show()
 
 
 def busy(n):
     x = [i for i in range(n + 1)]
-    M = [A[i] * P0[i] * i for i in x]
-    MM = M
+    y = [A[i] * P0[i] * i for i in x]
     for i in range(1, n + 1):
-        MM[i] += MM[i - 1]
-    plt.title("Mзан")  # заголовок
+        y[i] += y[i - 1]
+    plt.title("M зан")  # заголовок
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, MM)
+    plt.bar(x, y)
     plt.show()
 
 
@@ -68,11 +67,11 @@ def zagr(n):
         K[i] += K[i - 1]
     for i in range(1, n + 1):
         K[i] /= i
-    plt.title("Kзагр")  # заголовок
+    plt.title("K загр")  # заголовок
     plt.xlabel("n")  # ось абсцисс
-    plt.ylabel("M")  # ось ординат
+    plt.ylabel("K")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, K)
+    plt.bar(x, K)
     plt.show()
 
 otk(n)
