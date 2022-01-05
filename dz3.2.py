@@ -1,11 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
-import pylab as p
-from numpy import *
-from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
-                               AutoMinorLocator)
-from math import *
-from scipy import integrate
 
 R = [2, 8, 11, 5]
 G = [1, 10, 6, 10]

@@ -1,11 +1,5 @@
 import matplotlib.pyplot as plt
-import numpy as np
-import pylab as p
-from numpy import *
-from matplotlib.ticker import (MultipleLocator, FormatStrFormatter,
-                               AutoMinorLocator)
 from math import *
-from scipy import integrate
 
 R = [2, 8, 11, 5]
 G = [1, 10, 6, 10]
@@ -19,6 +13,9 @@ l = 1 / Tc      #
 m = 1 / Ts      # интенсивность потока обслуживания
 p = l / m
 A = [1] #       1 / 0!,      p / 1!,              p^2 / 2!,                p^3 / 3!,        p^4 / 4!, ...
+
+print(Tc, Ts)
+print(p)
 
 sm = A[0]
 
