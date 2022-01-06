@@ -99,7 +99,7 @@ plt.title(f"M stay")  # заголовок
 plt.xlabel("m")  # ось абсцисс
 plt.ylabel("M")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(x, y)
+plt.bar(x, y)
 plt.show()
 
 y = Mwait
@@ -107,7 +107,7 @@ plt.title(f"M wait")  # заголовок
 plt.xlabel("m")  # ось абсцисс
 plt.ylabel("M")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(x, y)
+plt.bar(x, y)
 plt.show()
 
 y = Pwait
@@ -115,7 +115,7 @@ plt.title(f"P wait")  # заголовок
 plt.xlabel("m")  # ось абсцисс
 plt.ylabel("P")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(x, y)
+plt.bar(x, y)
 plt.show()
 
 y = Mbusy
@@ -123,7 +123,7 @@ plt.title(f"M busy")  # заголовок
 plt.xlabel("m")  # ось абсцисс
 plt.ylabel("M")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(x, y)
+plt.bar(x, y)
 plt.show()
 
 y = Kbusy
@@ -131,5 +131,5 @@ plt.title(f"K busy")  # заголовок
 plt.xlabel("m")  # ось абсцисс
 plt.ylabel("k")  # ось ординат
 plt.grid()  # включение отображение сетки
-plt.plot(x, y)
+plt.bar(x, y)
 plt.show()
