@@ -70,7 +70,7 @@ def Mzan(n):
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
+    plt.bar(x, y)
     plt.show()
 
 
@@ -85,7 +85,7 @@ def Kzagr(n):
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("K")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
+    plt.bar(x, y)
     plt.show()
 
 
@@ -104,7 +104,7 @@ def Pque(n):
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("P")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
+    plt.bar(x, y)
     # plt.plot(x, y1, label=f"k = {n}")
     plt.show()
 
@@ -123,7 +123,7 @@ def MlenQ(n):
     plt.xlabel("n")  # ось абсцисс
     plt.ylabel("M")  # ось ординат
     plt.grid()  # включение отображение сетки
-    plt.plot(x, y)
+    plt.bar(x, y)
     plt.show()
 
 
